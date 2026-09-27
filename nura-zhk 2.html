@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Нура.Дом — ЖК района Нура, Астана</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#F3EEE2; --sand-dark:#E7DFC9;
+  --ink:#23211D; --ink-soft:#5B564A;
+  --river:#2C5F6F; --river-deep:#1D4550;
+  --gold:#C9A227; --rust:#B5502C;
+  --card:#FFFFFF; --line:#DED4B8;
+  --radius:2px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sand:#1B1A16; --sand-dark:#242219; --ink:#EFE9D8; --ink-soft:#B6AF9A;
+    --card:#242219; --line:#3A362A; --river:#5FA3B5; --gold:#D9B84A;
+  }
+}
+:root[data-theme="dark"]{
+  --sand:#1B1A16; --sand-dark:#242219; --ink:#EFE9D8; --ink-soft:#B6AF9A;
+  --card:#242219; --line:#3A362A; --river:#5FA3B5; --gold:#D9B84A;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*{margin:0;box-sizing:border-box;}
+body{background:var(--sand);color:var(--ink);font-family:'Manrope',sans-serif;line-height:1.5;min-height:100%;}
+h1,h2,h3,.disp{font-family:'Unbounded',sans-serif;letter-spacing:-0.01em;}
+img,svg{max-width:100%;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--sand);border-bottom:1px solid var(--line);padding-top:calc(env(safe-area-inset-top,0px));}
+.hrow{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;gap:12px;flex-wrap:wrap;}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Unbounded';font-weight:800;font-size:1.1rem;}
+.logo .mark{width:30px;height:30px;flex:none;}
+.langs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;}
+.langs button{border:none;background:transparent;color:var(--ink-soft);font-family:'Manrope';font-weight:700;font-size:.78rem;padding:6px 12px;border-radius:16px;cursor:pointer;}
+.langs button.active{background:var(--river);color:#fff;}
+
+/* hero */
+.hero{padding:56px 0 28px;border-bottom:1px solid var(--line);}
+.hero h1{font-size:clamp(1.9rem,4.5vw,3.1rem);font-weight:800;max-width:14ch;}
+.hero p{color:var(--ink-soft);max-width:52ch;margin-top:14px;font-size:1.02rem;}
+.searchbar{margin-top:28px;display:flex;gap:0;border:1.5px solid var(--ink);background:var(--card);max-width:640px;}
+.searchbar input{flex:1;border:none;background:transparent;padding:15px 16px;font-family:'Manrope';font-size:.95rem;color:var(--ink);outline:none;}
+.searchbar button{border:none;background:var(--ink);color:var(--sand);padding:0 22px;font-family:'Manrope';font-weight:700;cursor:pointer;font-size:.9rem;}
+.stats{display:flex;gap:28px;margin-top:26px;flex-wrap:wrap;}
+.stats div b{display:block;font-family:'Unbounded';font-size:1.4rem;color:var(--river);}
+.stats div span{font-size:.78rem;color:var(--ink-soft);}
+
+/* layout */
+.main{display:grid;grid-template-columns:250px 1fr;gap:32px;padding:32px 0 80px;align-items:start;}
+@media (max-width:860px){.main{grid-template-columns:1fr;}}
+
+.filters{position:sticky;top:80px;background:var(--card);border:1px solid var(--line);padding:20px;}
+@media (max-width:860px){.filters{position:static;}}
+.filters h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:14px;font-family:'Manrope';font-weight:700;}
+.fgroup{margin-bottom:22px;}
+.fgroup > label{display:block;font-weight:700;font-size:.86rem;margin-bottom:8px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{border:1px solid var(--line);background:transparent;color:var(--ink);font-size:.78rem;padding:6px 11px;border-radius:14px;cursor:pointer;font-family:'Manrope';font-weight:600;}
+.chip.on{background:var(--river);border-color:var(--river);color:#fff;}
+.range{display:flex;align-items:center;gap:8px;}
+.range input[type=range]{flex:1;accent-color:var(--river);}
+.range output{font-size:.78rem;color:var(--ink-soft);min-width:60px;text-align:right;}
+.resetbtn{width:100%;padding:10px;border:1px solid var(--ink);background:transparent;color:var(--ink);font-weight:700;font-size:.82rem;cursor:pointer;margin-top:4px;}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.count{font-size:.88rem;color:var(--ink-soft);}
+select#sort{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 10px;font-family:'Manrope';font-size:.82rem;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.card{background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .18s ease, box-shadow .18s ease;}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12);}
+.thumb{aspect-ratio:4/3;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+.thumb svg{width:100%;height:100%;display:block;}
+.badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.9);color:var(--ink);font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:12px;}
+.cbody{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+.cbody h3{font-size:1.05rem;font-weight:700;font-family:'Manrope';}
+.cbody .loc{font-size:.78rem;color:var(--ink-soft);}
+.price{font-family:'Unbounded';font-weight:600;color:var(--rust);font-size:1.02rem;margin-top:4px;}
+.meta{display:flex;gap:10px;font-size:.76rem;color:var(--ink-soft);flex-wrap:wrap;}
+.meta span{border:1px solid var(--line);padding:3px 8px;border-radius:10px;}
+.viewbtn{margin-top:auto;border:1px solid var(--ink);background:transparent;padding:9px;font-weight:700;font-size:.8rem;cursor:pointer;color:var(--ink);}
+.viewbtn:hover{background:var(--ink);color:var(--sand);}
+
+.empty{padding:60px 20px;text-align:center;color:var(--ink-soft);border:1px dashed var(--line);}
+
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 16px calc(40px + env(safe-area-inset-bottom,0px));}
+.overlay.open{display:flex;}
+.modal{background:var(--card);max-width:640px;width:100%;border:1px solid var(--line);margin-top:env(safe-area-inset-top,0px);}
+.modal-hero{aspect-ratio:16/8;border-bottom:1px solid var(--line);position:relative;}
+.modal-hero svg{width:100%;height:100%;display:block;}
+.modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.92);color:var(--ink);font-size:1.1rem;cursor:pointer;line-height:1;}
+.modal-body{padding:24px 26px 28px;}
+.modal-body h2{font-size:1.5rem;margin-bottom:4px;}
+.modal-body .loc{color:var(--ink-soft);font-size:.85rem;margin-bottom:14px;}
+.modal-price{font-family:'Unbounded';color:var(--rust);font-size:1.35rem;margin-bottom:18px;}
+.modal-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-bottom:20px;}
+.modal-stats div{border:1px solid var(--line);padding:10px 12px;}
+.modal-stats div b{display:block;font-family:'Unbounded';font-size:1.05rem;}
+.modal-stats div span{font-size:.72rem;color:var(--ink-soft);}
+.modal-feats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.modal-feats span{border:1px solid var(--line);border-radius:14px;padding:5px 11px;font-size:.78rem;}
+.modal-desc{color:var(--ink-soft);font-size:.92rem;line-height:1.6;margin-bottom:20px;}
+.modal-cta{display:flex;gap:10px;flex-wrap:wrap;}
+.modal-cta button{border:1px solid var(--ink);background:var(--ink);color:var(--sand);padding:11px 18px;font-weight:700;font-size:.85rem;cursor:pointer;}
+.modal-cta button.ghost{background:transparent;color:var(--ink);}
+
+footer{border-top:1px solid var(--line);padding:26px 0 calc(26px + env(safe-area-inset-bottom,0px));color:var(--ink-soft);font-size:.78rem;text-align:center;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hrow">
+    <div class="logo">
+      <svg class="mark" viewBox="0 0 30 30"><path d="M2 24 L2 12 L9 5 L16 12 L16 24 Z" fill="var(--river)"/><rect x="18" y="16" width="10" height="8" fill="var(--gold)"/><path d="M18 16 L23 10 L28 16 Z" fill="var(--rust)"/></svg>
+      <span>Нура.Дом</span>
+    </div>
+    <div class="langs" id="langs">
+      <button data-l="ru" class="active">РУС</button>
+      <button data-l="kz">ҚАЗ</button>
+      <button data-l="en">ENG</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 data-t="heroTitle">Жилые комплексы района Нура</h1>
+    <p data-t="heroSub">Все новостройки и сданные ЖК левобережной Астаны — с фильтрами по цене, площади и сроку сдачи, в одном месте.</p>
+    <div class="searchbar">
+      <input id="searchInput" data-t-ph="searchPh" placeholder="Название ЖК или застройщик...">
+      <button id="searchBtn" data-t="find">Найти</button>
+    </div>
+    <div class="stats">
+      <div><b id="statTotal">0</b><span data-t="statAll">жилых комплексов</span></div>
+      <div><b>12</b><span data-t="statDev">застройщиков</span></div>
+      <div><b>2019–2027</b><span data-t="statYears">годы сдачи</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="main">
+    <aside class="filters">
+      <h3 data-t="filtersTitle">Фильтры</h3>
+
+      <div class="fgroup">
+        <label data-t="fStatus">Статус</label>
+        <div class="chips" id="fStatus">
+          <button class="chip" data-v="ready" data-t="stReady">Сдан</button>
+          <button class="chip" data-v="building" data-t="stBuild">Строится</button>
+          <button class="chip" data-v="soon" data-t="stSoon">Старт продаж</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label data-t="fRooms">Комнатность</label>
+        <div class="chips" id="fRooms">
+          <button class="chip" data-v="1">1</button>
+          <button class="chip" data-v="2">2</button>
+          <button class="chip" data-v="3">3</button>
+          <button class="chip" data-v="4">4+</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label data-t="fPrice">Цена, млн ₸</label>
+        <div class="range"><input type="range" id="priceRange" min="12" max="70" value="70"><output id="priceOut">до 70</output></div>
+      </div>
+
+      <div class="fgroup">
+        <label data-t="fClass">Класс жилья</label>
+        <div class="chips" id="fClass">
+          <button class="chip" data-v="comfort" data-t="clComfort">Комфорт</button>
+          <button class="chip" data-v="business" data-t="clBusiness">Бизнес</button>
+          <button class="chip" data-v="premium" data-t="clPremium">Премиум</button>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label data-t="fFeat">Особенности</label>
+        <div class="chips" id="fFeat">
+          <button class="chip" data-v="park" data-t="ftPark">Парк рядом</button>
+          <button class="chip" data-v="school" data-t="ftSchool">Школа во дворе</button>
+          <button class="chip" data-v="parking" data-t="ftParking">Паркинг</button>
+        </div>
+      </div>
+
+      <button class="resetbtn" id="resetBtn" data-t="reset">Сбросить фильтры</button>
+    </aside>
+
+    <div>
+      <div class="toolbar">
+        <span class="count" id="countText"></span>
+        <select id="sort">
+          <option value="popular" data-t="sortPopular">По популярности</option>
+          <option value="priceAsc" data-t="sortPriceAsc">Сначала дешевле</option>
+          <option value="priceDesc" data-t="sortPriceDesc">Сначала дороже</option>
+          <option value="year" data-t="sortYear">По сроку сдачи</option>
+        </select>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-hero" id="modalHero">
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <h2 id="modalName"></h2>
+      <div class="loc" id="modalLoc"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-stats" id="modalStats"></div>
+      <div class="modal-feats" id="modalFeats"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-cta">
+        <button id="modalCall" data-t="modalCall">Оставить заявку</button>
+        <button class="ghost" id="modalBack" data-t="modalBack">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap" data-t="footer">Нура.Дом — независимый каталог жилых комплексов района Нура, Астана. Данные носят иллюстративный характер.</div>
+</footer>
+
+<script>
+const T = {
+ ru:{heroTitle:"Жилые комплексы района Нура",heroSub:"Все новостройки и сданные ЖК левобережной Астаны — с фильтрами по цене, площади и сроку сдачи, в одном месте.",searchPh:"Название ЖК или застройщик...",find:"Найти",statAll:"жилых комплексов",statDev:"застройщиков",statYears:"годы сдачи",filtersTitle:"Фильтры",fStatus:"Статус",stReady:"Сдан",stBuild:"Строится",stSoon:"Старт продаж",fRooms:"Комнатность",fPrice:"Цена, млн ₸",fClass:"Класс жилья",clComfort:"Комфорт",clBusiness:"Бизнес",clPremium:"Премиум",fFeat:"Особенности",ftPark:"Парк рядом",ftSchool:"Школа во дворе",ftParking:"Паркинг",reset:"Сбросить фильтры",sortPopular:"По популярности",sortPriceAsc:"Сначала дешевле",sortPriceDesc:"Сначала дороже",sortYear:"По сроку сдачи",footer:"Нура.Дом — независимый каталог жилых комплексов района Нура, Астана. Данные носят иллюстративный характер.",empty:"Ничего не найдено. Попробуйте изменить фильтры.",found:"комплексов найдено",view:"Смотреть",from:"от",priceTo:"до",modalFloors:"этажей",modalArea:"площадь, м²",modalRooms:"комнатность",modalYear:"сдача",modalCall:"Оставить заявку",modalBack:"Закрыть",descT:d=>`${d.n} — жильё ${({comfort:"комфорт-класса",business:"бизнес-класса",premium:"премиум-класса"})[d.cls]} от застройщика ${d.dev}, в районе Нура на левом берегу Астаны. ${d.rooms.join(', ')}-комнатные квартиры площадью ${d.area}, ${d.floors} этажей. Сдача — ${d.year} год.`},
+ kz:{heroTitle:"Нұра ауданының тұрғын кешендері",heroSub:"Астананың сол жағалауындағы барлық жаңа құрылыстар мен тапсырылған ЖК — баға, аудан және тапсыру мерзімі бойынша сүзгілермен.",searchPh:"ЖК атауы немесе құрылысшы...",find:"Іздеу",statAll:"тұрғын кешен",statDev:"құрылысшы",statYears:"тапсыру жылдары",filtersTitle:"Сүзгілер",fStatus:"Мәртебесі",stReady:"Тапсырылды",stBuild:"Салынуда",stSoon:"Сатылым басталды",fRooms:"Бөлме саны",fPrice:"Баға, млн ₸",fClass:"Тұрғын үй класы",clComfort:"Комфорт",clBusiness:"Бизнес",clPremium:"Премиум",fFeat:"Ерекшеліктері",ftPark:"Жанында саябақ",ftSchool:"Аулада мектеп",ftParking:"Паркинг",reset:"Сүзгілерді тазарту",sortPopular:"Танымалдығы бойынша",sortPriceAsc:"Алдымен арзан",sortPriceDesc:"Алдымен қымбат",sortYear:"Тапсыру мерзімі бойынша",footer:"Нұра.Үй — Астананың Нұра ауданындағы тұрғын кешендердің тәуелсіз каталогы. Деректер иллюстрациялық сипатта.",empty:"Ештеңе табылмады. Сүзгілерді өзгертіп көріңіз.",found:"кешен табылды",view:"Қарау",from:"бастап",priceTo:"дейін",modalFloors:"қабат",modalArea:"ауданы, м²",modalRooms:"бөлме саны",modalYear:"тапсыру",modalCall:"Өтінім қалдыру",modalBack:"Жабу",descT:d=>`${d.n} — ${({comfort:"комфорт-класты",business:"бизнес-класты",premium:"премиум-класты"})[d.cls]} тұрғын үй, құрылысшысы ${d.dev}, Астананың сол жағалауындағы Нұра ауданында. ${d.rooms.join(', ')}-бөлмелі пәтерлер, ауданы ${d.area}, ${d.floors} қабат. Тапсыру — ${d.year} жыл.`},
+ en:{heroTitle:"Residential complexes in Nura district",heroSub:"Every new build and completed complex on Astana's left bank — filter by price, size and handover date, all in one place.",searchPh:"Complex name or developer...",find:"Search",statAll:"complexes",statDev:"developers",statYears:"handover years",filtersTitle:"Filters",fStatus:"Status",stReady:"Completed",stBuild:"Under construction",stSoon:"Sales starting",fRooms:"Rooms",fPrice:"Price, mln ₸",fClass:"Housing class",clComfort:"Comfort",clBusiness:"Business",clPremium:"Premium",fFeat:"Features",ftPark:"Near a park",ftSchool:"School on-site",ftParking:"Parking",reset:"Reset filters",sortPopular:"Most popular",sortPriceAsc:"Price: low to high",sortPriceDesc:"Price: high to low",sortYear:"By handover date",footer:"Nura.Dom — an independent catalogue of residential complexes in Astana's Nura district. Data is illustrative.",empty:"Nothing found. Try adjusting the filters.",found:"complexes found",view:"View",from:"from",priceTo:"up to",modalFloors:"floors",modalArea:"area, m²",modalRooms:"rooms",modalYear:"handover",modalCall:"Leave a request",modalBack:"Close",descT:d=>`${d.n} is a ${({comfort:"comfort-class",business:"business-class",premium:"premium-class"})[d.cls]} development by ${d.dev}, in Astana's Nura district on the left bank. ${d.rooms.join(', ')}-room apartments, ${d.area} m², ${d.floors} floors. Handover in ${d.year}.`}
+};
+let lang='ru';
+
+const DATA=[
+ {n:"Nura Riverside",dev:"BI Group",status:"ready",rooms:[2,3],price:38,cls:"business",feat:["park","parking"],year:2023,pop:92,c1:"#2C5F6F",c2:"#C9A227",floors:16,area:"58–92"},
+ {n:"Aqbulaq Park",dev:"Highvill",status:"building",rooms:[1,2,3],price:24,cls:"comfort",feat:["park","school"],year:2026,pop:78,c1:"#B5502C",c2:"#2C5F6F",floors:12,area:"42–78"},
+ {n:"Dala Residence",dev:"Zhas Kanat",status:"ready",rooms:[1,2],price:19,cls:"comfort",feat:["parking"],year:2022,pop:65,c1:"#5B564A",c2:"#C9A227",floors:9,area:"38–61"},
+ {n:"Nura Vista",dev:"BAZIS-A",status:"building",rooms:[2,3,4],price:47,cls:"premium",feat:["park","parking","school"],year:2025,pop:88,c1:"#1D4550",c2:"#B5502C",floors:20,area:"64–128"},
+ {n:"Shyngys Towers",dev:"Kuat Group",status:"soon",rooms:[1,2,3,4],price:55,cls:"premium",feat:["parking"],year:2027,pop:54,c1:"#23211D",c2:"#C9A227",floors:25,area:"46–140"},
+ {n:"Zeren Quarter",dev:"Highvill",status:"ready",rooms:[1,2,3],price:29,cls:"comfort",feat:["school","park"],year:2021,pop:81,c1:"#2C5F6F",c2:"#B5502C",floors:10,area:"40–82"},
+ {n:"Sarybulak Yard",dev:"Zhas Kanat",status:"building",rooms:[2,3],price:33,cls:"business",feat:["parking","school"],year:2026,pop:70,c1:"#C9A227",c2:"#1D4550",floors:14,area:"56–90"},
+ {n:"Nura Skyline",dev:"BI Group",status:"soon",rooms:[3,4],price:62,cls:"premium",feat:["park","parking"],year:2027,pop:60,c1:"#B5502C",c2:"#23211D",floors:28,area:"80–150"},
+ {n:"Alqa Residence",dev:"Kuat Group",status:"ready",rooms:[1,2],price:16,cls:"comfort",feat:["parking"],year:2020,pop:73,c1:"#5B564A",c2:"#2C5F6F",floors:8,area:"36–58"},
+ {n:"Zhagalau Park",dev:"BAZIS-A",status:"building",rooms:[1,2,3],price:27,cls:"business",feat:["park","school","parking"],year:2025,pop:84,c1:"#1D4550",c2:"#C9A227",floors:13,area:"44–86"},
+];
+
+const state={status:new Set(),rooms:new Set(),cls:new Set(),feat:new Set(),price:70,q:"",sort:"popular"};
+
+function buildingSVG(c1,c2,seed){
+  const h1=40+((seed*37)%60), h2=40+((seed*53)%70), h3=40+((seed*19)%50);
+  return `<svg viewBox="0 0 300 225" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="225" fill="${c1}"/>
+    <rect x="0" y="${225-h1-30}" width="60" height="${h1+30}" fill="${c2}" opacity="0.9"/>
+    <rect x="70" y="${225-h2-30}" width="80" height="${h2+30}" fill="#F3EEE2" opacity="0.85"/>
+    <rect x="160" y="${225-h3-30}" width="70" height="${h3+30}" fill="${c2}" opacity="0.7"/>
+    <rect x="240" y="${225-(h1*0.7)-30}" width="55" height="${(h1*0.7)+30}" fill="#F3EEE2" opacity="0.6"/>
+    <rect x="0" y="195" width="300" height="30" fill="#23211D" opacity="0.25"/>
+  </svg>`;
+}
+
+function fmtPrice(v){return v+"M ₸";}
+
+function render(){
+  const t=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-t]').forEach(el=>{const k=el.getAttribute('data-t');if(t[k])el.textContent=t[k];});
+  document.querySelectorAll('[data-t-ph]').forEach(el=>{const k=el.getAttribute('data-t-ph');if(t[k])el.placeholder=t[k];});
+
+  let items=DATA.filter(d=>{
+    if(state.status.size && !state.status.has(d.status))return false;
+    if(state.rooms.size && !d.rooms.some(r=>state.rooms.has(r>=4?"4":String(r))))return false;
+    if(state.cls.size && !state.cls.has(d.cls))return false;
+    if(state.feat.size && ![...state.feat].every(f=>d.feat.includes(f)))return false;
+    if(d.price>state.price)return false;
+    if(state.q && !(d.n.toLowerCase().includes(state.q)||d.dev.toLowerCase().includes(state.q)))return false;
+    return true;
+  });
+  if(state.sort==="priceAsc")items.sort((a,b)=>a.price-b.price);
+  else if(state.sort==="priceDesc")items.sort((a,b)=>b.price-a.price);
+  else if(state.sort==="year")items.sort((a,b)=>a.year-b.year);
+  else items.sort((a,b)=>b.pop-a.pop);
+
+  document.getElementById('statTotal').textContent=DATA.length;
+  document.getElementById('countText').textContent=items.length+" "+t.found;
+
+  const grid=document.getElementById('grid');
+  currentItems=items;
+  if(!items.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${t.empty}</div>`;return;}
+  grid.innerHTML=items.map((d,i)=>`
+    <div class="card" data-idx="${i}">
+      <div class="thumb">${buildingSVG(d.c1,d.c2,i+7)}<span class="badge">${t[d.status==='ready'?'stReady':d.status==='building'?'stBuild':'stSoon']}</span></div>
+      <div class="cbody">
+        <h3>${d.n}</h3>
+        <div class="loc">${d.dev} · Нура, Астана</div>
+        <div class="price">${t.from} ${fmtPrice(d.price)}</div>
+        <div class="meta"><span>${d.rooms.join(', ')}-к.</span><span>${d.year}</span><span>${t[d.cls==='comfort'?'clComfort':d.cls==='business'?'clBusiness':'clPremium']}</span></div>
+        <button class="viewbtn" data-idx="${i}">${t.view}</button>
+      </div>
+    </div>`).join('');
+}
+let currentItems=[];
+
+function openModal(d){
+  const t=T[lang];
+  document.getElementById('modalHero').innerHTML=buildingSVG(d.c1,d.c2,DATA.indexOf(d)+7)+'<button class="modal-close" id="modalClose">✕</button>';
+  document.getElementById('modalClose').addEventListener('click',closeModal);
+  document.getElementById('modalName').textContent=d.n;
+  document.getElementById('modalLoc').textContent=d.dev+' · Нура, Астана';
+  document.getElementById('modalPrice').textContent=t.from+' '+fmtPrice(d.price);
+  document.getElementById('modalStats').innerHTML=[
+    [d.rooms.join(', '),t.modalRooms],[d.floors,t.modalFloors],[d.area,t.modalArea],[d.year,t.modalYear]
+  ].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join('');
+  document.getElementById('modalFeats').innerHTML=d.feat.map(f=>`<span>${t[f==='park'?'ftPark':f==='school'?'ftSchool':'ftParking']}</span>`).join('');
+  document.getElementById('modalDesc').textContent=t.descT(d);
+  document.querySelectorAll('[data-t="modalCall"],[data-t="modalBack"]').forEach(el=>{el.textContent=t[el.getAttribute('data-t')];});
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+document.getElementById('grid').addEventListener('click',e=>{
+  const c=e.target.closest('[data-idx]');if(!c)return;
+  const d=currentItems[Number(c.getAttribute('data-idx'))];
+  if(d)openModal(d);
+});
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal();});
+document.getElementById('modalBack').addEventListener('click',closeModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function chipHandler(groupId,setRef){
+  document.getElementById(groupId).addEventListener('click',e=>{
+    const b=e.target.closest('.chip');if(!b)return;
+    const v=b.getAttribute('data-v');
+    if(setRef.has(v)){setRef.delete(v);b.classList.remove('on');}
+    else{setRef.add(v);b.classList.add('on');}
+    render();
+  });
+}
+chipHandler('fStatus',state.status);
+chipHandler('fRooms',state.rooms);
+chipHandler('fClass',state.cls);
+chipHandler('fFeat',state.feat);
+
+document.getElementById('priceRange').addEventListener('input',e=>{
+  state.price=Number(e.target.value);
+  document.getElementById('priceOut').textContent=(T[lang].priceTo)+" "+state.price;
+  render();
+});
+document.getElementById('searchInput').addEventListener('input',e=>{state.q=e.target.value.toLowerCase();render();});
+document.getElementById('sort').addEventListener('change',e=>{state.sort=e.target.value;render();});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  state.status.clear();state.rooms.clear();state.cls.clear();state.feat.clear();state.price=70;state.q="";
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  document.getElementById('priceRange').value=70;
+  document.getElementById('searchInput').value="";
+  render();
+});
+document.getElementById('langs').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  lang=b.getAttribute('data-l');
+  document.querySelectorAll('#langs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('priceOut').textContent=(T[lang].priceTo)+" "+state.price;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
